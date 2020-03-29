@@ -3,7 +3,7 @@ package br.com.taok.bizu.tse.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Candidatura {
+public class Eleicao {
 
     Localidade unidadeEleitoral;
     Cargo cargo;

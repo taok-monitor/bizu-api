@@ -9,6 +9,7 @@ public class Candidato {
     private String descricaoSituacao;
     private String descricaoTotalizacao;
     private String nomeColigacao;
+    private Partido partido;
 
     public String getId() {
         return id;
@@ -64,5 +65,13 @@ public class Candidato {
 
     public void setNomeColigacao(String nomeColigacao) {
         this.nomeColigacao = nomeColigacao;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
     }
 }
