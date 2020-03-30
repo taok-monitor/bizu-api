@@ -1,5 +1,7 @@
 package br.com.taok.bizu.tse.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Localidade {
@@ -13,6 +15,8 @@ public class Localidade {
     private String codigo;
     private boolean capital;
     private String estado;
+
+    private List<Localidade> municipios = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -84,6 +88,14 @@ public class Localidade {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public List<Localidade> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Localidade> municipios) {
+        this.municipios = municipios;
     }
 
     @Override

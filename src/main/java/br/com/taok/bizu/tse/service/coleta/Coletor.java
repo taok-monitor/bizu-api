@@ -5,6 +5,7 @@ import br.com.taok.bizu.tse.model.Eleicoes;
 import br.com.taok.bizu.tse.model.Localidade;
 
 import javax.enterprise.context.Dependent;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.client.ClientBuilder;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,9 @@ import java.util.List;
 @Dependent
 public class Coletor {
 
-    public List<Eleicao> colete(Eleicoes eleicoes){
+    public List<Eleicao> colete(@NotNull Eleicoes eleicoes, Localidade localidade){
 
         List<Eleicao> eleicoesColetadas = new ArrayList<>();
-        Localidade localidade = new Localidade();
-        localidade.setSigla("CE");
-
         eleicoes.getURLs(localidade).stream().forEach(url -> {
             eleicoesColetadas.add(colete(url));
         });
@@ -31,15 +29,6 @@ public class Coletor {
 
         return ClientBuilder.newClient()
                 .target(url)
-                .request()
-                .get()
-                .readEntity(Eleicao.class);
-    }
-
-    private Eleicao colete(){
-
-       return ClientBuilder.newClient()
-                .target("http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/listar/2018/CE/2022802018/3/candidatos")
                 .request()
                 .get()
                 .readEntity(Eleicao.class);

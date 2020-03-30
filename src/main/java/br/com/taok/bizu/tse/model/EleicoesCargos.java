@@ -5,7 +5,8 @@ import java.util.List;
 
 public enum EleicoesCargos {
 
-    CARGOS_2018(Arrays.asList(3,4,5,6,7,8,9,10));
+    CARGOS_2018(Arrays.asList(3,4,5,6,7,8,9,10)),
+    CARGOS_2016(Arrays.asList(11,12,13));
 
     private final List<Integer> cargos;
 

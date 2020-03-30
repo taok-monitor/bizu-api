@@ -5,7 +5,8 @@ import java.util.List;
 
 public enum Eleicoes {
 
-    ELEICAO_2018(2018, EleicoesURL.ELEICAO_2018, EleicoesCargos.CARGOS_2018);
+    ELEICAO_2018(2018, EleicoesURL.ELEICAO_2018, EleicoesCargos.CARGOS_2018),
+    ELEICAO_2016(2016,EleicoesURL.ELEICAO_2016, EleicoesCargos.CARGOS_2016);
 
     private final int anoEleicao;
     private final EleicoesURL eleicaoURL;

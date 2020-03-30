@@ -3,10 +3,11 @@ package br.com.taok.bizu.model;
 import br.com.taok.bizu.tse.model.Candidato;
 import br.com.taok.bizu.tse.model.Cargo;
 import br.com.taok.bizu.tse.model.Localidade;
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
 import java.math.BigDecimal;
 
-public class Candidatura {
+public class Candidatura extends PanacheMongoEntity {
 
     private String codigoCandidator;
     private String nomeCandidato;
@@ -25,17 +26,18 @@ public class Candidatura {
             Candidato candidato,
             Integer anoEleicao,
             Localidade localidade,
-            Cargo cargo) {
+            Cargo cargo,
+            Localidade municipio) {
 
         this.codigoCandidator = candidato.getId();
         this.nomeCandidato = candidato.getNomeCompleto();
         this.numeroEleicao = candidato.getNumero();
         this.partido = candidato.getPartido().getSigla();
-        this.eleito = candidato.getDescricaoTotalizacao().equals("Eleito") ? true:false;
+        this.eleito = candidato.getDescricaoTotalizacao().equals("Eleito") ||candidato.getDescricaoTotalizacao().contains("Eleito por") ? true:false;
         this.patrimonioDeclarado = BigDecimal.ZERO;
         this.anoEleicao = anoEleicao;
         this.estadoEleicao = localidade.getSigla();
-        this.municipioEleicao =  "";
+        this.municipioEleicao =  municipio.getNome() == null? "": municipio.getNome();
         this.cargoEleicao = cargo.getNome();
         this.statusCandidatura = candidato.getDescricaoSituacao();
         this.coligacao = candidato.getNomeColigacao();
