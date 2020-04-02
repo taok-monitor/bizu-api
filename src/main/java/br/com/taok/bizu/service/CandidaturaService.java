@@ -9,6 +9,7 @@ import br.com.taok.bizu.tse.model.EleicoesCSV;
 import br.com.taok.bizu.tse.model.Localidade;
 import br.com.taok.bizu.tse.service.coleta.Coletor;
 import br.com.taok.bizu.tse.service.coleta.LeitorCSV;
+import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -84,5 +85,16 @@ public class CandidaturaService {
             c.persist();
         });
         System.out.println(candidaturas.size());
+    }
+
+    public List<Candidatura> candidaturas(){
+
+        List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
+
+        return todasCandidaturas.stream()
+                .filter(c -> c.getCassacoes().size() > 0)
+                .sorted((c1, c2) -> c2.valorTotalDeBens().compareTo(c1.valorTotalDeBens()))
+                .limit(15)
+                .collect(Collectors.toList());
     }
 }

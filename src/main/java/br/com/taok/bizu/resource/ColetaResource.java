@@ -39,4 +39,13 @@ public class ColetaResource {
         candidaturaService.coletaEleicaoGeralViaCSV(anoEleicao);
         return Response.status(200).build();
     }
+
+    @GET
+    @Path("/candidaturas/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response candidaturas() throws Exception {
+        return Response.status(200)
+                .entity(candidaturaService.candidaturas())
+                .build();
+    }
 }

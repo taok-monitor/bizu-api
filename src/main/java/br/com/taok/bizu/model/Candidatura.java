@@ -171,6 +171,12 @@ public class Candidatura extends PanacheMongoEntity {
         this.cassacoes = cassacoes;
     }
 
+    public BigDecimal valorTotalDeBens(){
+        return this.bens.stream()
+                .map(b -> b.getValor())
+                .reduce(BigDecimal.ZERO,BigDecimal::add);
+    }
+
     @Override
     public String toString() {
         return "Candidatura{" +
