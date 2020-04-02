@@ -2,14 +2,17 @@ package br.com.taok.bizu.model;
 
 import br.com.taok.bizu.tse.model.Candidato;
 import br.com.taok.bizu.tse.model.Cargo;
+import br.com.taok.bizu.tse.model.ConfirmacaoEleicao;
 import br.com.taok.bizu.tse.model.Localidade;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Candidatura extends PanacheMongoEntity {
 
-    private String codigoCandidator;
+    private String codigoCandidato;
     private String nomeCandidato;
     private Integer numeroEleicao;
     private String partido;
@@ -21,6 +24,11 @@ public class Candidatura extends PanacheMongoEntity {
     private String cargoEleicao;
     private String statusCandidatura;
     private String coligacao;
+    private List<Bem> bens = new ArrayList<>();
+    private List<Cassacao> cassacoes = new ArrayList<>();
+
+    public Candidatura() {
+    }
 
     public Candidatura(
             Candidato candidato,
@@ -29,11 +37,11 @@ public class Candidatura extends PanacheMongoEntity {
             Cargo cargo,
             Localidade municipio) {
 
-        this.codigoCandidator = candidato.getId();
+        this.codigoCandidato = candidato.getId();
         this.nomeCandidato = candidato.getNomeCompleto();
         this.numeroEleicao = candidato.getNumero();
         this.partido = candidato.getPartido().getSigla();
-        this.eleito = candidato.getDescricaoTotalizacao().equals("Eleito") ||candidato.getDescricaoTotalizacao().contains("Eleito por") ? true:false;
+        this.eleito = ConfirmacaoEleicao.foiEleito(candidato.getDescricaoTotalizacao());
         this.patrimonioDeclarado = BigDecimal.ZERO;
         this.anoEleicao = anoEleicao;
         this.estadoEleicao = localidade.getSigla();
@@ -43,12 +51,20 @@ public class Candidatura extends PanacheMongoEntity {
         this.coligacao = candidato.getNomeColigacao();
     }
 
-    public String getCodigoCandidator() {
-        return codigoCandidator;
+    public void adicionaBens(List<Bem> bens){
+        this.bens.addAll(bens);
     }
 
-    public void setCodigoCandidator(String codigoCandidator) {
-        this.codigoCandidator = codigoCandidator;
+    public void adicionarCassacao(List<Cassacao> cassacoes){
+        this.cassacoes.addAll(cassacoes);
+    }
+
+    public String getCodigoCandidato() {
+        return codigoCandidato;
+    }
+
+    public void setCodigoCandidato(String codigoCandidato) {
+        this.codigoCandidato = codigoCandidato;
     }
 
     public String getNomeCandidato() {
@@ -137,5 +153,40 @@ public class Candidatura extends PanacheMongoEntity {
 
     public void setColigacao(String coligacao) {
         this.coligacao = coligacao;
+    }
+
+    public List<Bem> getBens() {
+        return bens;
+    }
+
+    public void setBens(List<Bem> bens) {
+        this.bens = bens;
+    }
+
+    public List<Cassacao> getCassacoes() {
+        return cassacoes;
+    }
+
+    public void setCassacoes(List<Cassacao> cassacoes) {
+        this.cassacoes = cassacoes;
+    }
+
+    @Override
+    public String toString() {
+        return "Candidatura{" +
+                "codigoCandidato='" + codigoCandidato + '\'' +
+                ", nomeCandidato='" + nomeCandidato + '\'' +
+                ", numeroEleicao=" + numeroEleicao +
+                ", partido='" + partido + '\'' +
+                ", eleito=" + eleito +
+                ", patrimonioDeclarado=" + patrimonioDeclarado +
+                ", anoEleicao=" + anoEleicao +
+                ", estadoEleicao='" + estadoEleicao + '\'' +
+                ", municipioEleicao='" + municipioEleicao + '\'' +
+                ", cargoEleicao='" + cargoEleicao + '\'' +
+                ", statusCandidatura='" + statusCandidatura + '\'' +
+                ", coligacao='" + coligacao + '\'' +
+                ", bens=" + bens.size() +
+                '}';
     }
 }
