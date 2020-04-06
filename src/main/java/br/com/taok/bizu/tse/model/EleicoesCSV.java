@@ -1,17 +1,22 @@
 package br.com.taok.bizu.tse.model;
 
+import br.com.taok.bizu.model.Candidatura;
+import br.com.taok.bizu.util.StringUtil;
+
 public enum EleicoesCSV {
 
-    ELEICAO_2018(2018, "/home/cassunde/Documents/bizu/arquivos/2018"),
-    ELEICAO_2016(2016,"/home/cassunde/Documents/bizu/arquivos/2016"),
-    ELEICAO_2014(2014,"/home/cassunde/Documents/bizu/arquivos/2014");
+    ELEICAO_2018(2018, "/home/cassunde/Documents/bizu/arquivos/2018","https://cdn-eleicoes.gazetadopovo.com.br/fotos/ceara/::cargo/::nomeurna.jpg"),
+    ELEICAO_2016(2016,"/home/cassunde/Documents/bizu/arquivos/2016",""),
+    ELEICAO_2014(2014,"/home/cassunde/Documents/bizu/arquivos/2014","");
 
     private final int anoEleicao;
     private final String pathArquivo;
+    private final String urlFoto;
 
-    EleicoesCSV(int anoEleicao, String pathArquivo) {
+    EleicoesCSV(int anoEleicao, String pathArquivo, String urlFoto) {
         this.anoEleicao = anoEleicao;
         this.pathArquivo = pathArquivo;
+        this.urlFoto = urlFoto;
     }
 
     public int getAnoEleicao() {
@@ -28,6 +33,25 @@ public enum EleicoesCSV {
 
     public String pathCandidatosCassacao(String estado){
         return this.pathArquivo+"/motivo_cassacao_"+getAnoEleicao()+"/motivo_cassacao_"+getAnoEleicao()+"_"+estado+".csv";
+    }
+
+    public String getUrlFotoPorCandidato(Candidatura candidatura) {
+
+
+        String cargo = candidatura.getCargoEleicao()
+                .toLowerCase()
+                .replace(" ","-");
+        String nomeCandidato = candidatura.getNomeCandidatoNaUrna()
+                .toLowerCase()
+                .replace(" ","-");
+
+        if(candidatura.getCargoEleicao().equals("DEPUTADO ESTADUAL") || candidatura.getCargoEleicao().equals("DEPUTADO FEDERAL")){
+            nomeCandidato = nomeCandidato + "-"+candidatura.getNumeroEleicao().toString();
+        }
+
+        return StringUtil.removeAccents(urlFoto
+                .replace("::cargo",cargo)
+                .replace("::nomeurna", nomeCandidato));
     }
 
     public static EleicoesCSV encontraPorAnoEleitora(int anoEleicao){

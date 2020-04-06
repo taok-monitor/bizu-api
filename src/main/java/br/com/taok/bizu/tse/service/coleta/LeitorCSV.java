@@ -39,6 +39,7 @@ public class LeitorCSV {
                     candidatura.setCargoEleicao(line[14]);
                     candidatura.setStatusCandidatura(line[25]);
                     candidatura.setColigacao(line[31]);
+                    candidatura.setNomeCandidatoNaUrna(line[18]);
 
                     candidaturas.add(candidatura);
                 }

@@ -1,9 +1,6 @@
 package br.com.taok.bizu.model;
 
-import br.com.taok.bizu.tse.model.Candidato;
-import br.com.taok.bizu.tse.model.Cargo;
-import br.com.taok.bizu.tse.model.ConfirmacaoEleicao;
-import br.com.taok.bizu.tse.model.Localidade;
+import br.com.taok.bizu.tse.model.*;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
 import java.math.BigDecimal;
@@ -24,6 +21,8 @@ public class Candidatura extends PanacheMongoEntity {
     private String cargoEleicao;
     private String statusCandidatura;
     private String coligacao;
+    private String urlFoto;
+    private String nomeCandidatoNaUrna;
     private List<Bem> bens = new ArrayList<>();
     private List<Cassacao> cassacoes = new ArrayList<>();
 
@@ -153,6 +152,22 @@ public class Candidatura extends PanacheMongoEntity {
 
     public void setColigacao(String coligacao) {
         this.coligacao = coligacao;
+    }
+
+    public String getNomeCandidatoNaUrna() {
+        return nomeCandidatoNaUrna;
+    }
+
+    public void setNomeCandidatoNaUrna(String nomeCandidatoNaUrna) {
+        this.nomeCandidatoNaUrna = nomeCandidatoNaUrna;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     public List<Bem> getBens() {

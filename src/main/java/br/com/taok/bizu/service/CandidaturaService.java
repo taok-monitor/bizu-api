@@ -13,6 +13,7 @@ import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,7 @@ public class CandidaturaService {
         List<Cassacao> cassacoes = leitorCSV.lerCSVCassacao(eleicoesCSV.pathCandidatosCassacao("CE"));
 
         candidaturas.stream().forEach(c -> {
+            c.setUrlFoto(eleicoesCSV.getUrlFotoPorCandidato(c));
             List<Bem> bensDoCandidato = bens.stream()
                     .filter(b -> b.getCodigoCandidato().equals(c.getCodigoCandidato()))
                     .collect(Collectors.toList());
@@ -81,9 +83,7 @@ public class CandidaturaService {
             c.adicionarCassacao(cassacoesDoCandidato);
         });
 
-        candidaturas.stream().forEach(c -> {
-            c.persist();
-        });
+        Candidatura.persist(candidaturas);
         System.out.println(candidaturas.size());
     }
 
@@ -97,4 +97,6 @@ public class CandidaturaService {
                 .limit(15)
                 .collect(Collectors.toList());
     }
+
+
 }
