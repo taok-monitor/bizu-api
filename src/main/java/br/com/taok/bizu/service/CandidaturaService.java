@@ -9,11 +9,9 @@ import br.com.taok.bizu.tse.model.EleicoesCSV;
 import br.com.taok.bizu.tse.model.Localidade;
 import br.com.taok.bizu.tse.service.coleta.Coletor;
 import br.com.taok.bizu.tse.service.coleta.LeitorCSV;
-import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import java.text.Normalizer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,16 +85,30 @@ public class CandidaturaService {
         System.out.println(candidaturas.size());
     }
 
-    public List<Candidatura> candidaturas(){
-
+    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio){
         List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
-
         return todasCandidaturas.stream()
+                .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio))
                 .filter(c -> c.getCassacoes().size() > 0)
                 .sorted((c1, c2) -> c2.valorTotalDeBens().compareTo(c1.valorTotalDeBens()))
                 .limit(15)
                 .collect(Collectors.toList());
     }
 
+    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio){
+        boolean filtraCandidato = nomeCandidato != null && nomeCandidato.trim().length() > 0;
+        boolean filtraMunicipio = nomeMunicipio != null && nomeMunicipio.trim().length() > 0;
+        boolean candidatoFiltrado = true;
+        boolean municipioFiltrado = true;
 
+        if(filtraCandidato ){
+            candidatoFiltrado = candidatura.getNomeCandidato() != null && candidatura.getNomeCandidato().contains(nomeCandidato.toUpperCase());
+        }
+
+        if(filtraMunicipio){
+            municipioFiltrado = candidatura.getMunicipioEleicao() != null && candidatura.getMunicipioEleicao().contains(nomeMunicipio.toUpperCase());
+        }
+
+        return candidatoFiltrado && municipioFiltrado;
+    }
 }

@@ -6,7 +6,7 @@ import br.com.taok.bizu.util.StringUtil;
 public enum EleicoesCSV {
 
     ELEICAO_2018(2018, "/home/cassunde/Documents/bizu/arquivos/2018","https://cdn-eleicoes.gazetadopovo.com.br/fotos/ceara/::cargo/::nomeurna.jpg"),
-    ELEICAO_2016(2016,"/home/cassunde/Documents/bizu/arquivos/2016",""),
+    ELEICAO_2016(2016,"/home/cassunde/Documents/bizu/arquivos/2016","https://gazetadopovo-candidatos-2016.s3.amazonaws.com/fotos/::estado/::municipio/::nomeurna.jpg"),
     ELEICAO_2014(2014,"/home/cassunde/Documents/bizu/arquivos/2014","");
 
     private final int anoEleicao;
@@ -45,13 +45,22 @@ public enum EleicoesCSV {
                 .toLowerCase()
                 .replace(" ","-");
 
-        if(candidatura.getCargoEleicao().equals("DEPUTADO ESTADUAL") || candidatura.getCargoEleicao().equals("DEPUTADO FEDERAL")){
+        if(candidatura.getCargoEleicao().equals("DEPUTADO ESTADUAL")
+                || candidatura.getCargoEleicao().equals("DEPUTADO FEDERAL")
+                || candidatura.getCargoEleicao().equals("PREFEITO")
+                || candidatura.getCargoEleicao().equals("VICE-PREFEITO")
+                || candidatura.getCargoEleicao().equals("VEREADOR")){
             nomeCandidato = nomeCandidato + "-"+candidatura.getNumeroEleicao().toString();
         }
 
         return StringUtil.removeAccents(urlFoto
                 .replace("::cargo",cargo)
-                .replace("::nomeurna", nomeCandidato));
+                .replace("::estado", candidatura.getEstadoEleicao().toLowerCase())
+                .replace("::municipio", candidatura.getMunicipioEleicao()
+                        .replace(" ","-").toLowerCase())
+                .replace("::nomeurna", nomeCandidato
+                        .replace(",","")
+                        .replace(".","")));
     }
 
     public static EleicoesCSV encontraPorAnoEleitora(int anoEleicao){
