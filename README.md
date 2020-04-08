@@ -1,30 +1,19 @@
-# bizu project
+# bizu-api
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Api tem o objetivo de entregar um endpoint informando todos os candidatos que tiveram suas candidaturas cassadas por algum motivo.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+**Motivação**
 
-## Running the application in dev mode
+Hoje existe algumas plataformas para acompanharmos os passos de nossos candidatos, mas essa tem o objeito principal de destacar os candidatos que um dia tiveram algum problema com suas candidaturas, informando os motivos e ajudando os eleitores a escolherem seus representantes.
 
-You can run your application in dev mode that enables live coding using:
-```
-./mvnw quarkus:dev
-```
+Infelizmente temos a informação sobre cassações apenas de 2016 e 2018.
 
-## Packaging and running the application
+**Arquitetura**
 
-The application can be packaged using `./mvnw package`.
-It produces the `bizu-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
+Em nossa versão atual é baixado alguns arquivos ZIP no portal do TSE no link http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais e feito uma carga desses dados para nossa base de dados.
 
-The application is now runnable using `java -jar target/bizu-1.0.0-SNAPSHOT-runner.jar`.
+Nesse processo e baixado 3 arquivos zip:
 
-## Creating a native executable
-
-You can create a native executable using: `./mvnw package -Pnative`.
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: `./mvnw package -Pnative -Dquarkus.native.container-build=true`.
-
-You can then execute your native executable with: `./target/bizu-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image-guide.
+- Candidatos
+- Bens de candidatos
+- Motivo da cassação
