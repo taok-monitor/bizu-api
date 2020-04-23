@@ -85,7 +85,7 @@ public class CandidaturaService {
         System.out.println(candidaturas.size());
     }
 
-    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio, int anoEleicao){
+    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio, Integer anoEleicao){
         List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
         return todasCandidaturas.stream()
                 .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio, anoEleicao))
@@ -95,10 +95,10 @@ public class CandidaturaService {
                 .collect(Collectors.toList());
     }
 
-    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio, int anoEleicao){
+    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio, Integer anoEleicao){
         boolean filtraCandidato = nomeCandidato != null && nomeCandidato.trim().length() > 0;
         boolean filtraMunicipio = nomeMunicipio != null && nomeMunicipio.trim().length() > 0;
-        boolean filtraAnoEleicao = anoEleicao > 0;
+        boolean filtraAnoEleicao = anoEleicao != null && anoEleicao > 0;
         boolean candidatoFiltrado = true;
         boolean municipioFiltrado = true;
         boolean anoEleicaoFiltrado = true;
@@ -112,7 +112,7 @@ public class CandidaturaService {
         }
 
         if(filtraAnoEleicao){
-            anoEleicaoFiltrado = candidatura.getAnoEleicao() == anoEleicao;
+            anoEleicaoFiltrado = candidatura.getAnoEleicao().equals(anoEleicao);
         }
 
         return candidatoFiltrado && municipioFiltrado && anoEleicaoFiltrado;
