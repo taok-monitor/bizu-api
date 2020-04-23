@@ -85,21 +85,23 @@ public class CandidaturaService {
         System.out.println(candidaturas.size());
     }
 
-    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio){
+    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio, int anoEleicao){
         List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
         return todasCandidaturas.stream()
-                .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio))
+                .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio, anoEleicao))
                 .filter(c -> c.getCassacoes().size() > 0)
                 .sorted((c1, c2) -> c2.valorTotalDeBens().compareTo(c1.valorTotalDeBens()))
                 .limit(15)
                 .collect(Collectors.toList());
     }
 
-    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio){
+    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio, int anoEleicao){
         boolean filtraCandidato = nomeCandidato != null && nomeCandidato.trim().length() > 0;
         boolean filtraMunicipio = nomeMunicipio != null && nomeMunicipio.trim().length() > 0;
+        boolean filtraAnoEleicao = anoEleicao > 0;
         boolean candidatoFiltrado = true;
         boolean municipioFiltrado = true;
+        boolean anoEleicaoFiltrado = true;
 
         if(filtraCandidato ){
             candidatoFiltrado = candidatura.getNomeCandidato() != null && candidatura.getNomeCandidato().contains(nomeCandidato.toUpperCase());
@@ -109,6 +111,10 @@ public class CandidaturaService {
             municipioFiltrado = candidatura.getMunicipioEleicao() != null && candidatura.getMunicipioEleicao().contains(nomeMunicipio.toUpperCase());
         }
 
-        return candidatoFiltrado && municipioFiltrado;
+        if(filtraAnoEleicao){
+            anoEleicaoFiltrado = candidatura.getAnoEleicao() == anoEleicao;
+        }
+
+        return candidatoFiltrado && municipioFiltrado && anoEleicaoFiltrado;
     }
 }

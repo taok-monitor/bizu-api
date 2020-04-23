@@ -24,7 +24,10 @@ public class ColetaResource {
     @GET
     @Path("/candidaturas/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtemCandidaturas(@QueryParam("nomeCandidato") String nomeCandidato, @QueryParam("nomeMunicipio") String nomeMunicipio) {
-        return Response.status(200).entity(candidaturaService.candidaturas(nomeCandidato, nomeMunicipio)).build();
+    public Response obtemCandidaturas(
+            @QueryParam("nomeCandidato") String nomeCandidato,
+            @QueryParam("nomeMunicipio") String nomeMunicipio,
+            @QueryParam("anoEleicao") int anoEleicao) {
+        return Response.status(200).entity(candidaturaService.candidaturas(nomeCandidato, nomeMunicipio, anoEleicao)).build();
     }
 }
