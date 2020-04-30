@@ -27,8 +27,22 @@ public class ColetaResource {
     public Response obtemCandidaturas(
             @QueryParam("nomeCandidato") String nomeCandidato,
             @QueryParam("nomeMunicipio") String nomeMunicipio,
-            @QueryParam("anoEleicao") Integer anoEleicao) {
+            @QueryParam("anoEleicao") Integer anoEleicao,
+            @QueryParam("cargo") String cargo) {
         System.out.println("versão:0.0.1");
-        return Response.status(200).entity(candidaturaService.candidaturas(nomeCandidato, nomeMunicipio, anoEleicao)).build();
+        return Response.status(200).entity(candidaturaService.candidaturas(
+                nomeCandidato,
+                nomeMunicipio,
+                anoEleicao,
+                cargo
+        )).build();
     }
+
+    @GET
+    @Path("/municipios/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtermMicipios() {
+        return Response.status(200).entity(candidaturaService.municipios()).build();
+    }
+
 }

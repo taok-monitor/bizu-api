@@ -85,36 +85,58 @@ public class CandidaturaService {
         System.out.println(candidaturas.size());
     }
 
-    public List<Candidatura> candidaturas(String nomeCandidato, String nomeMunicipio, Integer anoEleicao){
+    public List<Candidatura> candidaturas(
+            String nomeCandidato,
+            String nomeMunicipio,
+            Integer anoEleicao,
+            String cargo){
+
         List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
         return todasCandidaturas.stream()
-                .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio, anoEleicao))
+                .filter(c -> filtroCandidato(c, nomeCandidato, nomeMunicipio, anoEleicao,cargo))
                 .filter(c -> c.getCassacoes().size() > 0)
                 .sorted((c1, c2) -> c2.valorTotalDeBens().compareTo(c1.valorTotalDeBens()))
                 .limit(15)
                 .collect(Collectors.toList());
     }
 
-    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio, Integer anoEleicao){
-        boolean filtraCandidato = nomeCandidato != null && nomeCandidato.trim().length() > 0;
-        boolean filtraMunicipio = nomeMunicipio != null && nomeMunicipio.trim().length() > 0;
-        boolean filtraAnoEleicao = anoEleicao != null && anoEleicao > 0;
+    public List<String> municipios(){
+        List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
+        return todasCandidaturas.stream()
+                .filter(c -> c.getMunicipioEleicao() != null)
+                .map(c -> c.getMunicipioEleicao())
+                .distinct()
+                .sorted((m1, m2) -> m1.compareTo(m2) )
+                .collect(Collectors.toList());
+    }
+
+    public boolean filtroCandidato(Candidatura candidatura, String nomeCandidato, String nomeMunicipio, Integer anoEleicao, String cargo){
+        boolean deveFiltraCandidato = nomeCandidato != null && nomeCandidato.trim().length() > 0;
+        boolean deveFiltraCargo = cargo != null && cargo.trim().length() > 0;
+        boolean deveFiltraMunicipio = nomeMunicipio != null && nomeMunicipio.trim().length() > 0;
+        boolean deveFiltraAnoEleicao = anoEleicao != null && anoEleicao > 0;
+
         boolean candidatoFiltrado = true;
         boolean municipioFiltrado = true;
         boolean anoEleicaoFiltrado = true;
+        boolean cargoFiltrado = true;
 
-        if(filtraCandidato ){
+        if(deveFiltraCandidato ){
             candidatoFiltrado = candidatura.getNomeCandidato() != null && candidatura.getNomeCandidato().contains(nomeCandidato.toUpperCase());
         }
 
-        if(filtraMunicipio){
+        if(deveFiltraMunicipio){
             municipioFiltrado = candidatura.getMunicipioEleicao() != null && candidatura.getMunicipioEleicao().contains(nomeMunicipio.toUpperCase());
         }
 
-        if(filtraAnoEleicao){
+        if(deveFiltraAnoEleicao){
             anoEleicaoFiltrado = candidatura.getAnoEleicao().equals(anoEleicao);
         }
 
-        return candidatoFiltrado && municipioFiltrado && anoEleicaoFiltrado;
+        if(deveFiltraCargo){
+            cargoFiltrado = candidatura.getCargoEleicao().equals(cargo);
+        }
+
+        return candidatoFiltrado && municipioFiltrado && anoEleicaoFiltrado && cargoFiltrado;
     }
 }
