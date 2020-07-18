@@ -1,5 +1,6 @@
 package br.com.taok.bizu.resource;
 
+import br.com.taok.bizu.service.CandidaturaFilter;
 import br.com.taok.bizu.service.CandidaturaService;
 
 import javax.inject.Inject;
@@ -29,13 +30,13 @@ public class ColetaResource {
             @QueryParam("nomeMunicipio") String nomeMunicipio,
             @QueryParam("anoEleicao") Integer anoEleicao,
             @QueryParam("cargo") String cargo) {
-        System.out.println("versão:0.0.1");
-        return Response.status(200).entity(candidaturaService.candidaturas(
-                nomeCandidato,
-                nomeMunicipio,
-                anoEleicao,
-                cargo
-        )).build();
+        CandidaturaFilter candidaturaFilter = new CandidaturaFilter();
+        candidaturaFilter.setAnoEleicao(anoEleicao);
+        candidaturaFilter.setCargo(cargo);
+        candidaturaFilter.setNomeCandidato(nomeCandidato);
+        candidaturaFilter.setNomeMunicipio(nomeMunicipio);
+
+        return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter)).build();
     }
 
     @GET
