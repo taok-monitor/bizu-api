@@ -3,8 +3,10 @@ package br.com.taok.bizu.service;
 import br.com.taok.bizu.model.Bem;
 import br.com.taok.bizu.model.Candidatura;
 import br.com.taok.bizu.model.Cassacao;
+import br.com.taok.bizu.model.Municipio;
 import br.com.taok.bizu.tse.model.EleicoesCSV;
 import br.com.taok.bizu.tse.service.coleta.LeitorCSV;
+import io.quarkus.panache.common.Sort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,15 +25,14 @@ public class CandidaturaService {
     LeitorCSV leitorCSV;
 
     public void coletaEleicaoGeralViaCSV(Integer anoEleicao){
-        EleicoesCSV eleicoesCSV = EleicoesCSV.encontraPorAnoEleitora(anoEleicao);
+        EleicoesCSV eleicoesCSV = EleicoesCSV.encontraPorAnoEleitoral(anoEleicao);
         List<Candidatura> candidaturas = leitorCSV.lerCSV(eleicoesCSV.pathCandidatos("CE"),eleicoesCSV.getAnoEleicao());
         List<Bem> bens = leitorCSV.lerCSVBem(eleicoesCSV.pathCandidatosBens("CE"));
         List<Cassacao> cassacoes = leitorCSV.lerCSVCassacao(eleicoesCSV.pathCandidatosCassacao("CE"));
 
         candidaturas.stream().forEach(c -> {
             c.setUrlFoto(eleicoesCSV.getUrlFotoPorCandidato(c));
-            List<Bem> bensDoCandidato = bens.stream()
-                    .filter(b -> b.getCodigoCandidato().equals(c.getCodigoCandidato()))
+            List<Bem> bensDoCandidato = bens.stream().filter(b -> b.getCodigoCandidato().equals(c.getCodigoCandidato()))
                     .collect(Collectors.toList());
             c.adicionaBens(bensDoCandidato);
 
@@ -56,12 +57,12 @@ public class CandidaturaService {
     }
 
     public List<String> municipios(){
-        List<Candidatura> todasCandidaturas = Candidatura.findAll().list();
-        return todasCandidaturas.stream()
-                .filter(c -> c.getMunicipioEleicao() != null)
-                .map(c -> c.getMunicipioEleicao())
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        return Candidatura.findAll(Sort.by("municipioEleicao"))
+                .project(Municipio.class)
+                .stream()
+                    .filter(m -> m.getMunicipioEleicao() != null)
+                    .map(Municipio::getMunicipioEleicao)
+                    .distinct()
+                    .collect(Collectors.toList());
     }
 }

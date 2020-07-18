@@ -63,7 +63,7 @@ public enum EleicoesCSV {
                         .replace(".","")));
     }
 
-    public static EleicoesCSV encontraPorAnoEleitora(int anoEleicao){
+    public static EleicoesCSV encontraPorAnoEleitoral(int anoEleicao){
         for (EleicoesCSV eleicoes : EleicoesCSV.values()) {
             if( eleicoes.anoEleicao == anoEleicao ){
                 return eleicoes;
