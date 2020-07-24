@@ -30,6 +30,7 @@ public class ColetaResource {
             @QueryParam("nomeMunicipio") String nomeMunicipio,
             @QueryParam("anoEleicao") Integer anoEleicao,
             @QueryParam("cargo") String cargo) {
+
         CandidaturaFilter candidaturaFilter = new CandidaturaFilter();
         candidaturaFilter.setAnoEleicao(anoEleicao);
         candidaturaFilter.setCargo(cargo);

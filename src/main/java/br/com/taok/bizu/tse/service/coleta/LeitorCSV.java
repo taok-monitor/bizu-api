@@ -17,7 +17,6 @@ public class LeitorCSV {
 
     public List<Candidatura> lerCSV(String csvFile, int anoEleicao) {
 
-        System.out.println(csvFile);
         CSVReader reader = null;
         List<Candidatura> candidaturas = new ArrayList<>();
         try {
@@ -54,7 +53,6 @@ public class LeitorCSV {
 
     public List<Bem> lerCSVBem(String csvFile) {
 
-        System.out.println(csvFile);
         CSVReader reader = null;
         List<Bem> bens = new ArrayList<>();
         try {
@@ -81,7 +79,6 @@ public class LeitorCSV {
 
     public List<Cassacao> lerCSVCassacao(String csvFile) {
 
-        System.out.println(csvFile);
         CSVReader reader = null;
         List<Cassacao> cassacoes = new ArrayList<>();
         try {

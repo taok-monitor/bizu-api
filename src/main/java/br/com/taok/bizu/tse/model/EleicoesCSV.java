@@ -37,7 +37,6 @@ public enum EleicoesCSV {
 
     public String getUrlFotoPorCandidato(Candidatura candidatura) {
 
-
         String cargo = candidatura.getCargoEleicao()
                 .toLowerCase()
                 .replace(" ","-");

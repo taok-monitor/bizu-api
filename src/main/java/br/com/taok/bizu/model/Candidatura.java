@@ -50,12 +50,12 @@ public class Candidatura extends PanacheMongoEntity {
         this.coligacao = candidato.getNomeColigacao();
     }
 
-    public void adicionaBens(List<Bem> bens){
-        this.bens.addAll(bens);
+    public void adicionaBem(Bem bem){
+        this.bens.add(bem);
     }
 
-    public void adicionarCassacao(List<Cassacao> cassacoes){
-        this.cassacoes.addAll(cassacoes);
+    public void adicionarCassacao(Cassacao cassacao){
+        this.cassacoes.add(cassacao);
     }
 
     public String getCodigoCandidato() {

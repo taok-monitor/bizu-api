@@ -41,15 +41,15 @@ public class CandidaturaFilter {
     private String getQuery(){
 
         String query =  " anoEleicao = :anoEleicao ";
-        if(!StringUtils.isBlank(nomeCandidato)){
+        if(StringUtils.isNotBlank(nomeCandidato)){
             query = query + " and nomeCandidato like :nomeCandidato";
         }
 
-        if(!StringUtils.isBlank(nomeMunicipio)){
+        if(StringUtils.isNotBlank(nomeMunicipio)){
             query = query + " and municipioEleicao = :municipioEleicao";
         }
 
-        if(!StringUtils.isBlank(cargo)){
+        if(StringUtils.isNotBlank(cargo)){
             query = query + " and cargoEleicao = :cargoEleicao";
         }
 

@@ -26,20 +26,18 @@ public class CandidaturaService {
 
     public void coletaEleicaoGeralViaCSV(Integer anoEleicao){
         EleicoesCSV eleicoesCSV = EleicoesCSV.encontraPorAnoEleitoral(anoEleicao);
-        List<Candidatura> candidaturas = leitorCSV.lerCSV(eleicoesCSV.pathCandidatos("CE"),eleicoesCSV.getAnoEleicao());
+        List<Candidatura> candidaturas = leitorCSV.lerCSV(eleicoesCSV.pathCandidatos("CE"), eleicoesCSV.getAnoEleicao());
         List<Bem> bens = leitorCSV.lerCSVBem(eleicoesCSV.pathCandidatosBens("CE"));
         List<Cassacao> cassacoes = leitorCSV.lerCSVCassacao(eleicoesCSV.pathCandidatosCassacao("CE"));
 
-        candidaturas.stream().forEach(c -> {
-            c.setUrlFoto(eleicoesCSV.getUrlFotoPorCandidato(c));
-            List<Bem> bensDoCandidato = bens.stream().filter(b -> b.getCodigoCandidato().equals(c.getCodigoCandidato()))
-                    .collect(Collectors.toList());
-            c.adicionaBens(bensDoCandidato);
+        candidaturas.parallelStream().forEach(candidatura -> {
+            candidatura.setUrlFoto(eleicoesCSV.getUrlFotoPorCandidato(candidatura));
+            bens.stream().filter(b -> b.getCodigoCandidato().equals(candidatura.getCodigoCandidato()))
+                    .forEach(candidatura::adicionaBem);
 
-            List<Cassacao> cassacoesDoCandidato = cassacoes.stream()
-                    .filter(cassacao -> cassacao.getCodigoCandidato().equals(c.getCodigoCandidato()))
-                    .collect(Collectors.toList());
-            c.adicionarCassacao(cassacoesDoCandidato);
+            cassacoes.stream()
+                    .filter(cassacao -> cassacao.getCodigoCandidato().equals(candidatura.getCodigoCandidato()))
+                    .forEach(candidatura::adicionarCassacao);
         });
 
         Candidatura.persist(candidaturas);
