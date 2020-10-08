@@ -48,7 +48,6 @@ public class CandidaturaService {
 
         return candidaturaFilter
                 .getListagemFiltrada().stream()
-                    .filter(c -> c.getCassacoes().size() > 0)
                     .sorted(Comparator.comparing(Candidatura::valorTotalDeBens).reversed())
                     .limit(15)
                     .collect(Collectors.toList());
