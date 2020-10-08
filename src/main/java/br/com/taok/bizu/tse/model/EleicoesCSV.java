@@ -5,6 +5,7 @@ import br.com.taok.bizu.util.StringUtil;
 
 public enum EleicoesCSV {
 
+    ELEICAO_2020(2020, "/home/cassunde/Documents/bizu/arquivos/2020","https://cdn-eleicoes.gazetadopovo.com.br/fotos/ceara/::cargo/::nomeurna.jpg"),
     ELEICAO_2018(2018, "/home/cassunde/Documents/bizu/arquivos/2018","https://cdn-eleicoes.gazetadopovo.com.br/fotos/ceara/::cargo/::nomeurna.jpg"),
     ELEICAO_2016(2016,"/home/cassunde/Documents/bizu/arquivos/2016","https://gazetadopovo-candidatos-2016.s3.amazonaws.com/fotos/::estado/::municipio/::nomeurna.jpg"),
     ELEICAO_2014(2014,"/home/cassunde/Documents/bizu/arquivos/2014","");
