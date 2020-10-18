@@ -44,12 +44,11 @@ public class CandidaturaService {
         log.info("Finalizando importação, total importado={} ", candidaturas.size());
     }
 
-    public List<Candidatura> candidaturas(CandidaturaFilter candidaturaFilter){
+    public List<Candidatura> candidaturas(CandidaturaFilter candidaturaFilter, int page){
 
         return candidaturaFilter
-                .getListagemFiltrada().stream()
+                .getListagemFiltrada(page).stream()
                     .sorted(Comparator.comparing(Candidatura::valorTotalDeBens).reversed())
-                    .limit(15)
                     .collect(Collectors.toList());
     }
 

@@ -1,20 +1,24 @@
 package br.com.taok.bizu.service;
 
 import br.com.taok.bizu.model.Candidatura;
+import br.com.taok.bizu.model.Estado;
+import com.mongodb.client.model.Filters;
+import io.quarkus.panache.common.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.Document;
 
-import javax.enterprise.context.Dependent;
-import java.util.HashMap;
+import javax.print.Doc;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Pattern;
 
-@Dependent
 public class CandidaturaFilter {
 
     private String nomeCandidato;
     private String nomeMunicipio;
     private Integer anoEleicao;
     private String cargo;
+    private Estado estado;
     private boolean apenasComCassacao = false;
 
     public void setNomeCandidato(String nomeCandidato) {
@@ -33,53 +37,45 @@ public class CandidaturaFilter {
         this.anoEleicao = anoEleicao;
     }
 
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     public CandidaturaFilter apenasComCassacao(){
         this.apenasComCassacao = true;
         return this;
     }
 
-    private String getQuery(){
+    private Document createDocumentByFilters(){
 
-        String query =  " anoEleicao = :anoEleicao ";
+        final Document document = new Document();
+
+        if(anoEleicao != null){
+            document.put("anoEleicao", anoEleicao);
+        }
+
         if(StringUtils.isNotBlank(nomeCandidato)){
-            query = query + " and nomeCandidato like :nomeCandidato";
+            document.put("nomeCandidato", Pattern.compile(nomeCandidato));
         }
 
         if(StringUtils.isNotBlank(nomeMunicipio)){
-            query = query + " and municipioEleicao = :municipioEleicao";
+            document.put("municipioEleicao", nomeMunicipio.toUpperCase());
         }
 
         if(StringUtils.isNotBlank(cargo)){
-            query = query + " and cargoEleicao = :cargoEleicao";
+            document.put("cargoEleicao", cargo);
         }
 
-        if(apenasComCassacao){
-            query = query + " and cassacoes is not null";
+        if(estado != null){
+            document.put("estadoEleicao", estado.name());
         }
 
-        return query;
+        return  document;
     }
 
-    private Map<String,Object> getParams(){
-
-        Map<String,Object> params = new HashMap<>();
-        params.put("anoEleicao", anoEleicao);
-        if(StringUtils.isNotBlank(nomeCandidato)){
-            params.put("nomeCandidato", nomeCandidato.toUpperCase());
-        }
-
-        if(StringUtils.isNotBlank(nomeMunicipio)){
-            params.put("municipioEleicao", nomeMunicipio.toUpperCase());
-        }
-
-        if(StringUtils.isNotBlank(cargo)){
-            params.put("cargoEleicao", cargo.toUpperCase());
-        }
-
-        return params;
-    }
-
-    public List<Candidatura> getListagemFiltrada(){
-        return Candidatura.find(getQuery(), getParams()).list();
+    public List<Candidatura> getListagemFiltrada(int page){
+        return Candidatura.find(createDocumentByFilters())
+                .page(Page.of(page, 15))
+                .list();
     }
 }
