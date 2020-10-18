@@ -9,22 +9,22 @@ import java.util.List;
 
 public class Candidatura extends PanacheMongoEntity {
 
-    private String codigoCandidato;
-    private String nomeCandidato;
-    private Integer numeroEleicao;
-    private String partido;
-    private Boolean eleito;
-    private BigDecimal patrimonioDeclarado;
-    private Integer anoEleicao;
-    private String estadoEleicao;
-    private String municipioEleicao;
-    private String cargoEleicao;
-    private String statusCandidatura;
-    private String coligacao;
-    private String urlFoto;
-    private String nomeCandidatoNaUrna;
-    private List<Bem> bens = new ArrayList<>();
-    private List<Cassacao> cassacoes = new ArrayList<>();
+    public String codigoCandidato;
+    public String nomeCandidato;
+    public Integer numeroEleicao;
+    public String partido;
+    public Boolean eleito;
+    public BigDecimal patrimonioDeclarado;
+    public Integer anoEleicao;
+    public String estadoEleicao;
+    public String municipioEleicao;
+    public String cargoEleicao;
+    public String statusCandidatura;
+    public String coligacao;
+    public String urlFoto;
+    public String nomeCandidatoNaUrna;
+    public List<Bem> bens = new ArrayList<>();
+    public List<Cassacao> cassacoes = new ArrayList<>();
 
     public Candidatura() {
     }

@@ -4,7 +4,12 @@ import br.com.taok.bizu.service.CandidaturaFilter;
 import br.com.taok.bizu.service.CandidaturaService;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -37,7 +42,7 @@ public class ColetaResource {
         candidaturaFilter.setNomeCandidato(nomeCandidato);
         candidaturaFilter.setNomeMunicipio(nomeMunicipio);
 
-        return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter)).build();
+        return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter,0)).build();
     }
 
     @GET
