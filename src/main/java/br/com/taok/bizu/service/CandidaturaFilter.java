@@ -2,13 +2,10 @@ package br.com.taok.bizu.service;
 
 import br.com.taok.bizu.model.Candidatura;
 import br.com.taok.bizu.model.Estado;
-import com.mongodb.client.model.Filters;
 import io.quarkus.panache.common.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 
-import javax.print.Doc;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -41,6 +38,10 @@ public class CandidaturaFilter {
         this.estado = estado;
     }
 
+    public void setComCassacao(boolean cassacao) {
+        this.apenasComCassacao = cassacao;
+    }
+
     public CandidaturaFilter apenasComCassacao(){
         this.apenasComCassacao = true;
         return this;
@@ -70,6 +71,11 @@ public class CandidaturaFilter {
             document.put("estadoEleicao", estado.name());
         }
 
+        if(apenasComCassacao){
+            document.put("cassacoes", new Document("$not", new Document("$size",0)));
+        }
+
+        System.out.println(document.toJson());
         return  document;
     }
 
