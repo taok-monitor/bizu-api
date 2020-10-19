@@ -75,7 +75,6 @@ public class CandidaturaFilter {
             document.put("cassacoes", new Document("$not", new Document("$size",0)));
         }
 
-        System.out.println(document.toJson());
         return  document;
     }
 
