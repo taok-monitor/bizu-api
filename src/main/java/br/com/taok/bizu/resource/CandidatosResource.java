@@ -24,11 +24,13 @@ public class CandidatosResource {
     public Response obtemCandidaturasGerais(
             @QueryParam("nomeCandidato") String nomeCandidato,
             @QueryParam("cargo") String cargo,
+            @QueryParam("cassacao") boolean cassacao,
             @QueryParam("page") int page) {
 
         CandidaturaFilter candidaturaFilter = new CandidaturaFilter();
         candidaturaFilter.setCargo(cargo);
         candidaturaFilter.setNomeCandidato(nomeCandidato);
+        candidaturaFilter.setComCassacao(cassacao);
 
         return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter, page)).build();
     }
@@ -40,12 +42,14 @@ public class CandidatosResource {
             @PathParam("ano") Integer anoEleicao,
             @QueryParam("nomeCandidato") String nomeCandidato,
             @QueryParam("cargo") String cargo,
+            @QueryParam("cassacao") boolean cassacao,
             @QueryParam("page") int page) {
 
         CandidaturaFilter candidaturaFilter = new CandidaturaFilter();
         candidaturaFilter.setAnoEleicao(anoEleicao);
         candidaturaFilter.setCargo(cargo);
         candidaturaFilter.setNomeCandidato(nomeCandidato);
+        candidaturaFilter.setComCassacao(cassacao);
 
         return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter, page)).build();
     }
@@ -58,6 +62,7 @@ public class CandidatosResource {
             @PathParam("ano") Integer anoEleicao,
             @QueryParam("nomeCandidato") String nomeCandidato,
             @QueryParam("cargo") String cargo,
+            @QueryParam("cassacao") boolean cassacao,
             @QueryParam("page") int page) {
 
         System.out.println(estado);
@@ -67,6 +72,7 @@ public class CandidatosResource {
         candidaturaFilter.setCargo(cargo);
         candidaturaFilter.setNomeCandidato(nomeCandidato);
         candidaturaFilter.setEstado(estado);
+        candidaturaFilter.setComCassacao(cassacao);
 
         return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter, page)).build();
     }
@@ -80,6 +86,7 @@ public class CandidatosResource {
             @PathParam("ano") Integer anoEleicao,
             @QueryParam("nomeCandidato") String nomeCandidato,
             @QueryParam("cargo") String cargo,
+            @QueryParam("cassacao") boolean cassacao,
             @QueryParam("page") int page) {
 
         CandidaturaFilter candidaturaFilter = new CandidaturaFilter();
@@ -88,6 +95,7 @@ public class CandidatosResource {
         candidaturaFilter.setNomeCandidato(nomeCandidato);
         candidaturaFilter.setNomeMunicipio(nomeMunicipio);
         candidaturaFilter.setEstado(estado);
+        candidaturaFilter.setComCassacao(cassacao);
 
         return Response.status(200).entity(candidaturaService.candidaturas(candidaturaFilter, page)).build();
     }
