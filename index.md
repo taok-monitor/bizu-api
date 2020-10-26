@@ -4,7 +4,7 @@ API para ajudar a conhecer melhor a seus Candidatos
 
 ## Geral
 
-- Todos os endpoints sempre retornaram a mesma estrutura de dados, mostrando as seguintes informações:
+Todos os endpoints sempre retornaram a mesma estrutura de dados, mostrando as seguintes informações:
 
 ```json
 {
@@ -40,9 +40,9 @@ API para ajudar a conhecer melhor a seus Candidatos
 |codigoCandidato| Código do candidato dentro do TSE |
 
 
-- Todos os end-points são paginados em 15 itens.
+**Todos os end-points são paginados em 15 itens**
 
-- Todos os end-points teram os mesmo filtros disponíveis segue abaixo:
+**Todos os end-points teram os mesmo filtros disponíveis segue abaixo:**
 
 | Filtro | Tipo |
 |--------|------|
