@@ -8,7 +8,7 @@ API para ajudar a conhecer melhor a seus Candidatos
 
 ```json
 {
-  "id": "5e8cdcfc6f75087c649eaa94", //identificador
+  "id": "5e8cdcfc6f75087c649eaa94",
   "anoEleicao": 2016,
   "bens": [],
   "cargoEleicao": "VEREADOR",
